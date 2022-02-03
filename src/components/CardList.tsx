@@ -17,58 +17,33 @@ interface CardsProps {
 
 export function CardList({ cards }: CardsProps): JSX.Element {
   // TODO MODAL USEDISCLOSURE
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // TODO SELECTED IMAGE URL STATE
+  const [imageUrlSelected,  setImageUrlSelected] = useState<string>('');
 
   // TODO FUNCTION HANDLE VIEW IMAGE
+  function handleViewImage(url: string){
+    setImageUrlSelected(url);
+    onOpen();
+  }
 
   return (
     <>
       {/* TODO CARD GRID */}
-
-      <Grid templateColumns="repeat(3,1fr)">
+      <Grid templateColumns="repeat(3,1fr)" gap="50px">
         {
           cards.map(card => (
-            <GridItem w="293px" h="290px">
-              <Box w="293px" overflow="hidden" bg="pGray.800" borderRadius="6px">
-                <Image
-                  src={card.url}
-                  alt={card.title}
-                  maxW="293px"
-                  // maxH="192px"
-                />
-
-                <Box
-                  my="5"
-                  mx="4"
-                  as="h4"
-                  fontWeight="bold"
-                  lineHeight="20px"
-                  fontSize="25px"
-                  color="pgray.50"
-                >
-                  {card.title}
-                </Box>
-
-                <Box
-                  my="4"
-                  mx="4"
-                  as="h4"
-                  fontWeight="normal"
-                  lineHeight="21px"
-                  fontSize="18px"
-                  color="pgray.100"
-                >
-                  {card.description}
-                </Box>
-
-              </Box>
-            </GridItem>
+            <Card data={card} viewImage={ ()=> handleViewImage(card.url) }  />
           ))
         }
       </Grid>
-
       {/* TODO MODALVIEWIMAGE */}
+      {
+        isOpen && (
+          <ModalViewImage isOpen onClose={onClose} imgUrl={imageUrlSelected}/>
+        )
+      }
     </>
   );
 }
