@@ -7,6 +7,7 @@ import { CardList } from '../components/CardList';
 import { api } from '../services/api';
 import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
+import ButtonLoadMore from '../components/Button/ButtonLoadMore';
 
 type Image = {
   title: string;
@@ -83,6 +84,16 @@ export default function Home(): JSX.Element {
         <CardList cards={formattedData} />
         {/* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */}
       </Box>
+
+      {
+        hasNextPage &&
+        (
+          <Box maxW={1120} px={20} mx="auto" mb={20}>
+            <ButtonLoadMore  fetchNextPage={fetchNextPage} isFetchingNextPage={isFetchingNextPage}/>
+          </Box>
+        )
+
+      }
     </>
   );
 }
